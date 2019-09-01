@@ -1,0 +1,49 @@
+version: '2'
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Application.Dockerfile
+        command: /usr/local/bin/app/setup_and_run.sh # only for DEV mode
+        volumes_from:
+            - sources # only for DEV mode.
+        network_mode: "service:webapp"
+        environment:
+            PHP_IDE_CONFIG: 'serverName=semb.local' # only for DEV mode.
+        env_file:
+            - docker/Application/env_files/main.env
+            - docker/Application/env_files/newrelic.env
+        depends_on:
+            - mysql
+
+    webapp:
+        build:
+            context: .
+            dockerfile: WebApplication.Dockerfile
+        ports:
+            - "80:80"
+            - "2222:22" # phpunit DEV mode
+        volumes_from:
+            - sources:rw # only for DEV mode.
+        networks:
+            - mysql # Access to database in NW with it
+
+    mysql:
+        image: mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: proj_pass
+            MYSQL_DATABASE: proj
+        ports:
+            - 3306:3306
+        networks:
+            mysql:
+                aliases:
+                    - mysql
+    sources:
+        image: ubuntu
+        volumes:
+            - ./:/var/www/application:rw
+networks:
+    mysql:
+        driver: bridge

@@ -1,0 +1,32 @@
+.login-wrapper {
+  height: 100%;
+  background-size: cover;
+  overflow: hidden;
+}
+
+.login-box {
+  width: 40%;
+  margin: 100px auto;
+  padding: 1em;
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: 6px;
+}
+
+.login-box h3 {
+  margin: 1em;
+  border-bottom: 1px solid #dadada;
+  padding-bottom: 1em;
+  color: #3490dc;
+  text-align: center;
+}
+
+.login-box .notes {
+  margin-bottom: 1em;
+}
+
+.auth-input {
+  display: block;
+  width: 100%;
+}
+
